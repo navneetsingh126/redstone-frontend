@@ -23,6 +23,7 @@ export default defineConfig({
       },
     }),
   ],
+  base: "/redstone-frontend/", 
   resolve: {
     alias: [
       {
