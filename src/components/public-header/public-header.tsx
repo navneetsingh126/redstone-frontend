@@ -5,10 +5,13 @@ import Typography from '@mui/material/Typography';
 
 import { useRouter } from 'src/routes/hooks';
 
+import { useAuth } from 'src/contexts/auth-context';
+
 // ----------------------------------------------------------------------
 
 export function PublicHeader() {
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
 
   return (
     <Box
@@ -29,7 +32,7 @@ export function PublicHeader() {
           >
             Study Abroad
           </Typography>
-          
+
           <Box sx={{ display: 'flex', gap: 2 }}>
             <Button
               variant="text"
@@ -45,9 +48,9 @@ export function PublicHeader() {
             </Button>
             <Button
               variant="outlined"
-              onClick={() => router.push('/sign-in')}
+              onClick={() => router.push(isAuthenticated ? '/user' : '/sign-in')}
             >
-              Sign In
+              {isAuthenticated ? 'Dashboard' : 'Sign In'}
             </Button>
           </Box>
         </Box>

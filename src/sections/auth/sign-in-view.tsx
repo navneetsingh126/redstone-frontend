@@ -1,3 +1,4 @@
+import { Navigate } from 'react-router-dom';
 import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
@@ -38,7 +39,7 @@ export function SignInView() {
       setIsLoading(true);
       setError(null);
       await login(credentials);
-      router.push('/');
+      router.push('/user');
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Login failed. Please try again.');
     } finally {
@@ -52,10 +53,14 @@ export function SignInView() {
   }
 
   // Redirect if already authenticated
+  // if (isAuthenticated) {
+  //   router.push('/user');
+  //   return null;
+  // }
+
   if (isAuthenticated) {
-    router.push('/');
-    return null;
-  }
+  return <Navigate to="/user" replace />;
+}
 
   const renderForm = (
     <Box

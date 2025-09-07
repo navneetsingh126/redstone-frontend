@@ -14,7 +14,7 @@ interface ProtectedRouteProps {
 }
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { isAuthenticated, isLoading, isInitialized } = useAuth();
+  const { isAuthenticated, isLoading, isInitialized, user } = useAuth();
 
   const renderFallback = () => (
     <DashboardLayout>
@@ -41,6 +41,10 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   // Show loading while checking authentication status
   if (!isInitialized || isLoading) {
     return renderFallback();
+  }
+
+  if (!user) {
+    return <Navigate to="/" replace />;
   }
 
   if (!isAuthenticated) {

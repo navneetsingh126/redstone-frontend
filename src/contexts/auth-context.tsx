@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
+import { useRouter } from 'src/routes/hooks';
+
 import { axiosInstance, API_ENDPOINTS } from 'src/utils/axios-instance';
 import { getStoredUser, storeUser, clearAuthData } from 'src/utils/auth-utils';
 
@@ -46,6 +48,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const isAuthenticated = !!user;
 
+  const router = useRouter();
+
   const login = async (credentials: LoginCredentials) => {
     try {
       setIsLoading(true);
@@ -77,8 +81,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Clear user state
     setUser(null);
 
-    // Redirect to sign-in
-    window.location.href = '/sign-in';
+    // Redirect to base url /
+    router.push('/')
   };
 
   const checkAuth = async () => {
