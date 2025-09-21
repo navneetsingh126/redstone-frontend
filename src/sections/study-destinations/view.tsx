@@ -24,7 +24,6 @@ import { useRouter } from 'src/routes/hooks';
 import { Iconify } from 'src/components/iconify';
 import { CounselingDialog } from 'src/components/counseling-dialog';
 
-
 // Define the type for destinations
 interface Destination {
   id: number;
@@ -40,13 +39,16 @@ interface Destination {
   whyTrending: string[];
 }
 
+// Use import.meta.env.BASE_URL for public assets
+const BASE_URL = import.meta.env.BASE_URL;
+
 const destinations: Destination[] = [
   {
     id: 1,
     name: 'Dubai',
     country: 'UAE',
     description: 'A futuristic city with over 70+ international universities and a thriving economy',
-    image: `${import.meta.env.BASE_URL}assets/images/dubai_circular.png`,
+    image: `${BASE_URL}assets/images/dubai_circular.png`,
     tuitionFee: '~50,000 AED',
     livingCost: '~30,000 AED',
     totalCost: '~88,500 AED',
@@ -80,19 +82,14 @@ export function StudyDestinationsView() {
   const router = useRouter();
   const [selectedDestination, setSelectedDestination] = useState<Destination>(destinations[0]);
   const [counselingDialogOpen, setCounselingDialogOpen] = useState(false);
-  // Define logos as an array of strings
   const [logos, setLogos] = useState<string[]>([]);
 
-  const handleViewMore = () => {
-    router.push('/universities');
-  };
+  const handleViewMore = () => router.push('/universities');
+  const handleCounselingClick = () => setCounselingDialogOpen(true);
 
-  const handleCounselingClick = () => {
-    setCounselingDialogOpen(true);
-  };
-
+  // Load logos using BASE_URL
   useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}assets/logos/logos.json`)
+    fetch(`${BASE_URL}assets/logos/logos.json`)
       .then((res) => res.json())
       .then((data: string[]) => setLogos(data))
       .catch((err) => console.error('Error loading logos.json:', err));
@@ -115,17 +112,7 @@ export function StudyDestinationsView() {
   return (
     <>
       {/* Hero Section */}
-      <Box
-        sx={{
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          color: 'white',
-          py: 8,
-          mx: 1,
-          mt: 1,
-          mb: 6,
-          borderRadius: 2,
-        }}
-      >
+      <Box sx={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white', py: 8, mx: 1, mt: 1, mb: 6, borderRadius: 2 }}>
         <Container maxWidth="lg">
           <Grid container spacing={4} alignItems="center">
             <Grid size={{ xs: 12, md: 8 }}>
@@ -143,13 +130,7 @@ export function StudyDestinationsView() {
                   variant="contained"
                   size="large"
                   onClick={handleCounselingClick}
-                  sx={{
-                    backgroundColor: 'white',
-                    color: 'primary.main',
-                    '&:hover': {
-                      backgroundColor: 'grey.100',
-                    },
-                  }}
+                  sx={{ backgroundColor: 'white', color: 'primary.main', '&:hover': { backgroundColor: 'grey.100' } }}
                 >
                   Book Free Consultation
                 </Button>
@@ -157,63 +138,20 @@ export function StudyDestinationsView() {
                   variant="outlined"
                   size="large"
                   onClick={handleViewMore}
-                  sx={{
-                    color: 'white',
-                    borderColor: 'white',
-                    '&:hover': {
-                      borderColor: 'grey.100',
-                      backgroundColor: 'rgba(255,255,255,0.1)',
-                    },
-                  }}
+                  sx={{ color: 'white', borderColor: 'white', '&:hover': { borderColor: 'grey.100', backgroundColor: 'rgba(255,255,255,0.1)' } }}
                 >
                   Apply Now
                 </Button>
               </Box>
             </Grid>
             <Grid size={{ xs: 12, md: 4 }}>
-              <Box
-                sx={{
-                  width: '100%',
-                  height: 300,
-                  background: 'linear-gradient(45deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1))',
-                  borderRadius: 2,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  position: 'relative',
-                  overflow: 'hidden',
-                }}
-              >
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    top: -20,
-                    right: -20,
-                    width: 100,
-                    height: 100,
-                    borderRadius: '50%',
-                    background: 'rgba(255,255,255,0.1)',
-                  }}
-                />
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    bottom: -30,
-                    left: -30,
-                    width: 80,
-                    height: 80,
-                    borderRadius: '50%',
-                    background: 'rgba(255,255,255,0.08)',
-                  }}
-                />
+              <Box sx={{ width: '100%', height: 300, background: 'linear-gradient(45deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1))', borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
+                <Box sx={{ position: 'absolute', top: -20, right: -20, width: 100, height: 100, borderRadius: '50%', background: 'rgba(255,255,255,0.1)' }} />
+                <Box sx={{ position: 'absolute', bottom: -30, left: -30, width: 80, height: 80, borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
                 <img
-                  src={`${import.meta.env.BASE_URL}assets/study_hub_dubai-removebg-preview.png`}
+                  src={`${BASE_URL}assets/study_hub_dubai-removebg-preview.png`}
                   alt={selectedDestination.name}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                  }}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </Box>
             </Grid>
@@ -229,26 +167,11 @@ export function StudyDestinationsView() {
         <Slider {...settings}>
           {logos.map((file, idx) => (
             <Box key={idx} sx={{ px: 2 }}>
-              <Card
-                sx={{
-                  m: 0.7,
-                  p: 3,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 150,
-                }}
-              >
+              <Card sx={{ m: 0.7, p: 3, display: 'flex', alignItems: 'center', justifyContent: 'center', height: 150 }}>
                 <img
-                  src={`${import.meta.env.BASE_URL}assets/logos/${file}`}
+                  src={`${BASE_URL}assets/logos/${file}`}
                   alt={file.replace(/\..+$/, '')}
-                  style={{
-                    maxHeight: '80px',
-                    maxWidth: '100%',
-                    objectFit: 'contain',
-                    filter: 'grayscale(80%)',
-                    transition: 'filter 0.3s',
-                  }}
+                  style={{ maxHeight: '80px', maxWidth: '100%', objectFit: 'contain', filter: 'grayscale(80%)', transition: 'filter 0.3s' }}
                   onMouseOver={(e) => (e.currentTarget.style.filter = 'none')}
                   onMouseOut={(e) => (e.currentTarget.style.filter = 'grayscale(80%)')}
                 />
@@ -261,39 +184,12 @@ export function StudyDestinationsView() {
       {/* Destination Details */}
       <Container sx={{ mb: 6, mx: 1 }} maxWidth={false}>
         <Card sx={{ p: 4 }}>
-          {/* Destination Header with Visual */}
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              mb: 4,
-              p: 3,
-              background: 'linear-gradient(135deg, #667eea, #764ba2)',
-              borderRadius: 2,
-              color: 'white',
-            }}
-          >
-            <Box
-              sx={{
-                width: 80,
-                height: 80,
-                borderRadius: '50%',
-                background: 'rgba(255,255,255,0.2)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                mr: 3,
-                overflow: 'hidden',
-              }}
-            >
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 4, p: 3, background: 'linear-gradient(135deg, #667eea, #764ba2)', borderRadius: 2, color: 'white' }}>
+            <Box sx={{ width: 80, height: 80, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', mr: 3, overflow: 'hidden' }}>
               <img
                 src={selectedDestination.image}
                 alt={selectedDestination.name}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             </Box>
             <Box>
