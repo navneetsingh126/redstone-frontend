@@ -46,7 +46,7 @@ const destinations: Destination[] = [
     name: 'Dubai',
     country: 'UAE',
     description: 'A futuristic city with over 70+ international universities and a thriving economy',
-    image: '/assets/images/dubai_circular.png',
+    image: `${import.meta.env.BASE_URL}assets/images/dubai_circular.png`,
     tuitionFee: '~50,000 AED',
     livingCost: '~30,000 AED',
     totalCost: '~88,500 AED',
@@ -92,7 +92,7 @@ export function StudyDestinationsView() {
   };
 
   useEffect(() => {
-    fetch('/assets/logos/logos.json')
+    fetch(`${import.meta.env.BASE_URL}assets/logos/logos.json`)
       .then((res) => res.json())
       .then((data: string[]) => setLogos(data))
       .catch((err) => console.error('Error loading logos.json:', err));
@@ -207,7 +207,7 @@ export function StudyDestinationsView() {
                   }}
                 />
                 <img
-                  src="/assets/study_hub_dubai-removebg-preview.png"
+                  src={`${import.meta.env.BASE_URL}assets/study_hub_dubai-removebg-preview.png`}
                   alt={selectedDestination.name}
                   style={{
                     width: '100%',
@@ -240,7 +240,7 @@ export function StudyDestinationsView() {
                 }}
               >
                 <img
-                  src={`/assets/logos/${file}`}
+                  src={`${import.meta.env.BASE_URL}assets/logos/${file}`}
                   alt={file.replace(/\..+$/, '')}
                   style={{
                     maxHeight: '80px',
