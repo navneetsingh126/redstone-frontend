@@ -1,10 +1,9 @@
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router';
-
-// ----------------------------------------------------------------------
+import { useNavigate, useLocation } from 'react-router';
 
 export function useRouter() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const router = useMemo(
     () => ({
@@ -13,8 +12,9 @@ export function useRouter() {
       refresh: () => navigate(0),
       push: (href: string) => navigate(href),
       replace: (href: string) => navigate(href, { replace: true }),
+      pathname: location.pathname,
     }),
-    [navigate]
+    [navigate, location.pathname]
   );
 
   return router;
